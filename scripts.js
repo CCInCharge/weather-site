@@ -22,9 +22,19 @@ function getLocation() {
     $("#location").text(location_text);
   });
 }
-
+/*
 function getWeather() {
   var lat = loc[0];
   var lon = loc[1];
+  $.getJSON('
   var appid = "78a1ff6ef3713d277bd6d47f094fb816";
+}
+*/
+
+function getWeather() {
+  queryURL = "http://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
+  $.getJSON(queryURL, function(data) {
+    weatherData = data;
+    console.log(data);
+  })
 }
