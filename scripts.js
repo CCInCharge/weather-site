@@ -1,22 +1,30 @@
-var city = "";
-var country = "";
-var region = "";
-var location = "";
+/*
+$.get("https://ipinfo.io", function(response) {
+  console.log(response.ip, response.country);
+}, "jsonp")
+*/
 
 function getLocation() {
-  $.getJSON('http://ipinfo.io', function(data){
-    city = data.city;
-    country = data.country;
-    region = data.region;
-    $("#location").text(city);
+  $.getJSON('https://ipinfo.io', function(data){
+    var city = data.city;
+    var country = data.country;
+    var region = data.region;
+
+    // Get latitude and longitude of current location
+    loc = data.loc.split(" ,");
+
+    if (country != region) {
+      var location_text = city + ", " + region + ", " + country;
+    } else {
+      var location_text = city + ", " + country;
+    }
+
+    $("#location").text(location_text);
   });
 }
 
-getLocation();
-/*
-  if (country != region) {
-    location = city + ", " + region + ", " + country;
-  } else {
-    location = city + ", " + country;
-  }
-*/
+function getWeather() {
+  var lat = loc[0];
+  var lon = loc[1];
+  var appid = "78a1ff6ef3713d277bd6d47f094fb816";
+}
