@@ -4,6 +4,20 @@ $.get("https://ipinfo.io", function(response) {
 }, "jsonp")
 */
 
+function switchUnits() {
+  if (document.getElementById("units").className == "degF") {
+    $("#units").removeClass("degF");
+    $("#units").addClass("degC");
+    $("#units").html("&deg;C");
+    $("#temperature").html(temp_c);
+  } else if (document.getElementById("units").className == "degC") {
+    $("#units").removeClass("degC");
+    $("#units").addClass("degF");
+    $("#units").html("&deg;F");
+    $("#temperature").html(temp_f);
+  }
+}
+
 function getWeather() {
   $.getJSON('https://ipinfo.io', function(data){
     var city = data.city;
@@ -24,8 +38,8 @@ function getWeather() {
     queryURL = "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
     $.getJSON(queryURL, function(data) {
       curData = data;
-      var temp_f = data.current_observation.temp_f;
-      var temp_c = data.current_observation.temp_c;
+      temp_f = data.current_observation.temp_f;
+      temp_c = data.current_observation.temp_c;
       var weather = data.current_observation.weather;
 
       $("#temperature").text(temp_f);
@@ -34,4 +48,7 @@ function getWeather() {
   });
 }
 
-getWeather();
+$(document).ready(function() {
+  getWeather();
+  // $(".switch-units").on("click",switchUnits());
+})
