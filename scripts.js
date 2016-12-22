@@ -1,6 +1,8 @@
-// How to reduce use of global variables?
-
-var loc;
+/*
+$.get("https://ipinfo.io", function(response) {
+  console.log(response.ip, response.country);
+}, "jsonp")
+*/
 
 function getLocation() {
   $.getJSON('https://ipinfo.io', function(data){
@@ -30,18 +32,17 @@ function getWeather() {
 }
 */
 
-function getWeather(loc) {
+function getWeather() {
   queryURL = "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
   $.getJSON(queryURL, function(data) {
     curData = data;
-    temp_f = data.current_observation.temp_f;
-    temp_c = data.current_observation.temp_c;
-    weather = data.current_observation.weather;
+    var temp_f = data.current_observation.temp_f;
+    var temp_c = data.current_observation.temp_c;
+    var weather = data.current_observation.weather;
 
     $("#temperature").text(temp_f);
     $("#current-weather").text(weather);
   })
-}
 
-getLocation();
-getWeather(loc);
+
+}
