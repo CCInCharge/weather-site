@@ -1,8 +1,6 @@
-/*
-$.get("https://ipinfo.io", function(response) {
-  console.log(response.ip, response.country);
-}, "jsonp")
-*/
+// How to reduce use of global variables?
+
+var loc;
 
 function getLocation() {
   $.getJSON('https://ipinfo.io', function(data){
@@ -22,6 +20,7 @@ function getLocation() {
     $("#location").text(location_text);
   });
 }
+
 /*
 function getWeather() {
   var lat = loc[0];
@@ -31,10 +30,18 @@ function getWeather() {
 }
 */
 
-function getWeather() {
-  queryURL = "http://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
+function getWeather(loc) {
+  queryURL = "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
   $.getJSON(queryURL, function(data) {
-    weatherData = data;
-    console.log(data);
+    curData = data;
+    temp_f = data.current_observation.temp_f;
+    temp_c = data.current_observation.temp_c;
+    weather = data.current_observation.weather;
+
+    $("#temperature").text(temp_f);
+    $("#current-weather").text(weather);
   })
 }
+
+getLocation();
+getWeather(loc);
