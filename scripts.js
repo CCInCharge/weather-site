@@ -32,8 +32,18 @@ function getLocation(callback) {
 }
 
 function getWeather() {
+  $.getJSON(getLocation(function(loc){
+    return "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";}), function(data) {
+    curData = data;
+    temp_f = data.current_observation.temp_f;
+    temp_c = data.current_observation.temp_c;
+    var weather = data.current_observation.weather;
 
+    $("#temperature").text(temp_f);
+    $("#current-weather").text(weather);
+  })
 //    queryURL = "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
+/*
     $.ajax({
       url: getLocation(function(loc){
         return "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";}),
@@ -46,6 +56,7 @@ function getWeather() {
       $("#temperature").text(temp_f);
       $("#current-weather").text(weather);
     }})
+    */
 }
 
 $(document).ready(function() {
