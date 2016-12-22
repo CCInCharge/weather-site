@@ -33,6 +33,7 @@ function getLocation(callback) {
 
 function getWeather() {
   $.getJSON(getLocation(function(loc){
+    alert(loc);
     return "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";}), function(data) {
     console.log(data.current_observation);
     curData = data;
