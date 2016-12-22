@@ -18,34 +18,34 @@ function switchUnits() {
   }
 }
 
+function getLocation(callback) {
+  if (!navigator.geolocation) {
+    return;
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      loc = [position.coords.latitude.toString() + "," +  position.coords.longitude.toString()];
+      callback(loc);
+    })
+  }
+}
+
 function getWeather() {
-  $.getJSON('https://ipinfo.io', function(data){
-    var city = data.city;
-    var country = data.country;
-    var region = data.region;
 
-    // Get latitude and longitude of current location
-    loc = data.loc.split(" ,");
-
-    if (country != region) {
-      var location_text = city + ", " + region + ", " + country;
-    } else {
-      var location_text = city + ", " + country;
-    }
-
-    $("#location").text(location_text);
-
-    queryURL = "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
-    $.getJSON(queryURL, function(data) {
-      curData = data;
+//    queryURL = "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";
+    $.ajax({
+      url: getLocation(function(loc){
+        return "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + loc[0] + ".json";}),
+      dataType: 'json',
+      success: function(data) {
       temp_f = data.current_observation.temp_f;
       temp_c = data.current_observation.temp_c;
       var weather = data.current_observation.weather;
 
       $("#temperature").text(temp_f);
       $("#current-weather").text(weather);
-    })
-  });
+    }})
 }
 
 $(document).ready(function() {
