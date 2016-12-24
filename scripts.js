@@ -1,4 +1,3 @@
-
 function switchUnits() {
     if (document.getElementById("units").className == "degF") {
       $("#units").removeClass("degF");
@@ -13,13 +12,12 @@ function switchUnits() {
     }
 }
 
-$(document).ready(function() {
-    if (navigator.geolocation) {
+function getWeatherLatLon() {
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 lat = position.coords.latitude.toString();
                 lon = position.coords.longitude.toString();
             $.getJSON("https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + lat+ "," + lon + ".json", function(data) {
- //     var curData = data;
       temp_f = data.current_observation.temp_f;
       temp_c = data.current_observation.temp_c;
       city = data.current_observation.observation_location.full;
@@ -35,5 +33,7 @@ $(document).ready(function() {
             })
             })
     }
-})
+}
+
+$(document).ready(getWeatherLatLon());
 
