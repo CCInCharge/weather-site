@@ -26,7 +26,11 @@ $(document).ready(function() {
       weather = data.current_observation.weather;
 
       $("#current-city").text(city);
-      $("#temperature").text(temp_f);
+            if (document.getElementById("units").className == "degF") {
+                $("#temperature").text(temp_f);
+            } else if (document.getElementById("units").className == "degC") {
+                $("#temperature").text(temp_c);
+            }
       $("#current-weather").text(weather);
             })
             })
