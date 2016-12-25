@@ -18,6 +18,7 @@ function getWeatherLatLon() {
                 lat = position.coords.latitude.toString();
                 lon = position.coords.longitude.toString();
             $.getJSON("https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + lat+ "," + lon + ".json", function(data) {
+      curData = data;
       temp_f = data.current_observation.temp_f;
       temp_c = data.current_observation.temp_c;
       city = data.current_observation.observation_location.full;
@@ -30,10 +31,40 @@ function getWeatherLatLon() {
                 $("#temperature").text(temp_c);
             }
       $("#current-weather").text(weather);
+        $(".wi").addClass(getWeatherIcon(weather));
             })
             })
     }
 }
 
-$(document).ready(getWeatherLatLon());
+function getWeatherIcon(weather) {
+    if (weather.includes("Rain") || weather.includes("Drizzle") || weather.includes("Spray")) {
+        return "wi-rain";
+    } else if (weather.includes("Snow")) {
+        return "wi-snow";
+    } else if (weather.includes("Ice") || weather.includes("Hail")) {
+        return "wi-hail";
+    } else if (weather.includes("Fog") || weather.includes("Mist") || weather.includes("Haze")) {
+        return "wi-fog";
+    } else if (weather.includes("Smoke")) {
+        return "wi-smoke";
+    } else if (weather.includes("Volcanic Ash")) {
+        return "wi-volcano";
+    } else if (weather.includes("Dust")) {
+        return "wi-dust";
+    } else if (weather.includes("Sand")) {
+        return "wi-sandstorm";
+    } else if (weather.includes("Thunderstorm")) {
+        return "wi-thunderstorm";
+    } else if (weather.includes("Cloud") || weather.includes("Overcast")) {
+        return "wi-cloud";
+    } else if (weather.includes("Clear")) {
+        return "wi-day-sunny";
+    } else if (weather.includes("Squalls")) {
+        return "wi-windy";
+    } else {
+        return "wi-na";
+    }
+}
 
+$(document).ready(getWeatherLatLon());
