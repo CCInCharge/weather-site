@@ -12,12 +12,7 @@ function switchUnits() {
     }
 }
 
-function getWeatherLatLon() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                lat = position.coords.latitude.toString();
-                lon = position.coords.longitude.toString();
-            $.getJSON("https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + lat+ "," + lon + ".json", function(data) {
+function cbParseData(data) {
       curData = data;
       temp_f = data.current_observation.temp_f;
       temp_c = data.current_observation.temp_c;
@@ -32,8 +27,21 @@ function getWeatherLatLon() {
             }
       $("#current-weather").text(weather);
         $(".wi").addClass(getWeatherIcon(weather));
-            })
-            })
+}
+
+function cbCallWeatherAPI(position) {
+    lat = position.coords.latitude.toString();
+    lon = position.coords.longitude.toString();
+    $.ajax({
+    type: 'GET',
+    url: "https://api.wunderground.com/api/066cbf2575a1004c/forecast/conditions/q/" + lat+ "," + lon + ".json",
+    success: cbParseData
+    })
+}
+
+function getWeatherLatLon() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(cbCallWeatherAPI);
     }
 }
 
